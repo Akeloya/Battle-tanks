@@ -1,4 +1,4 @@
-﻿namespace WoT.Rush.Core.Interfaces
+﻿namespace BattleTanks.Core.Interfaces
 {
     public interface IBase : IResource
     {

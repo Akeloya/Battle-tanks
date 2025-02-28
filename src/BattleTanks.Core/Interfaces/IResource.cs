@@ -1,8 +1,8 @@
-﻿namespace WoT.Rush.Core.Interfaces
+﻿namespace BattleTanks.Core.Interfaces
 {
     public interface IResource
     {
-        short Value { get; }
+        short Value { get; init;}
     }
 
     public interface INationalResource : IResource, INational
