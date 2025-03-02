@@ -1,6 +1,6 @@
 ﻿namespace BattleTanks.Core.Interfaces
 {
-    public interface IBase : IResource
+    public interface IBase : IResource, IGameCard
     {
         public IDefenceCard Defence { get; set; }
 
