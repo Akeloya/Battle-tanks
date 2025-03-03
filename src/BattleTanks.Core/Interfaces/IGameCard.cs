@@ -16,6 +16,6 @@
     public interface IGameCard
     {
         string Name { get; init;}
-        Type Type {get; init;}
+        CardType Type {get; init;}
     }
 }

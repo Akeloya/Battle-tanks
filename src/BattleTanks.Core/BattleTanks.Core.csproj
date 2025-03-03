@@ -10,4 +10,6 @@
     <Folder Include="Players\" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties store_4cardstore_1json__JsonSchema="http://json-schema.org/battle-tank-store/schema" store_4cardstore_1schema_1json__JsonSchema="http://json-schema.org/draft-07/schema" /></VisualStudio></ProjectExtensions>
+
 </Project>

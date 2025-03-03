@@ -1,0 +1,29 @@
+﻿Name;CardType;Nation;Attack;Defence;Cost;Resources;ResourceNation;Ability 1;Ability 1 value;Ability 2;Ability 2 value
+PzKpfw II J;LightTank;Germany;1;1;1;0;;Research;2;;
+Jagdpanzer IV;PtSau;Germany;2;1;4;3;;Research;5;;
+PzRpfw 38(t);LightTank;Germany;1;1;1;0;;;;;
+Sturmpanzer I;Sau;Germany;2;1;2;1;;;;;
+Stug III;PtSau;Germany;2;1;3;2;;Call;;;
+Nachrichtenbrigade;AuxiliaryTroops;Germany;0;0;0;1;;Reconnaissance;;Assault;
+VK3002 (DB);MiddleTank;Germany;1;2;4;3;;Assault;;;
+СУ-14;Sau;USSR;2;1;4;3;;Repair;;;
+ЗИС-5;AuxiliaryTroops;USSR;0;1;0;4;USSR;;;;
+ТМ-57;AuxiliaryTroops;USSR;2;0;0;1;;Only against vehicles;;;
+Т-34;MiddleTank;USSR;1;2;3;2;;Research;4;;
+Т-26;LightTank;USSR;1;1;1;0;;;;;
+СУ-26;Sau;USSR;2;1;2;1;;;;;
+КВ-1С;HeavyTank;USSR;2;2;4;3;;Repair;;;
+ARL 44;HeavyTank;France;2;2;5;4;;Reinforcements;3;;
+AMX 13FL 11;PtSau;France;2;1;2;1;;Research;3;;
+Bat Chatillon 25t;MiddleTank;France;1;2;3;2;;Repair;;;
+AMX M4;HeavyTank;France;2;2;6;5;;Invulnerability;;;
+CT Classe Jaguar;AuxiliaryTroops;France;1;0;1;5;France;;;;
+T20;MiddleTank;USA;1;2;3;2;;Sabotage;;;
+M12;Sau;USA;2;1;3;2;;Reinforcements;2;;
+T30;HeavyTank;USA;2;2;6;5;;Invulnerability;;;
+Bofors 40 mm;AuxiliaryTroops;USA;1;0;0;0;;;;;
+Long Tom 155 mm;AuxiliaryTroops;USA;1;0;0;0;;Call;;;
+M5 Stuart;LightTank;USA;1;1;1;0;;Repair;;;
+Airborne;AuxiliaryTroops;USA;0;0;0;1;;Reconnaissance;;Reinforcements;1
+M2 Mortar;AuxiliaryTroops;USA;1;0;0;1;;Only against base;;;
+Opel Blitz;AuxiliaryTroops;Germany;0;1;0;4;Germany;;;;

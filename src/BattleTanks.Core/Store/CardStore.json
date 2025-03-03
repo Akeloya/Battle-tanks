@@ -1,3 +1,9 @@
 {
-
+  "BattleCards": [
+    {
+      "name": "Т-34",
+      "cardType": "MiddleTank",
+      "attack": 2
+    }
+  ]
 }
