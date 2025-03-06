@@ -2,7 +2,6 @@
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Avalonia.Platform.Storage;
 
 using BattleTanks.Editor.Core.Services;
 using BattleTanks.Editor.Core.Services.Dialogs;
@@ -19,34 +18,39 @@ public partial class App : Application
     {
         AvaloniaXamlLoader.Load(this);
     }
-
+    
     public override void OnFrameworkInitializationCompleted()
     {
-        IStorageProvider? storageProvider = null;
+        RegisterAppServices();
+        
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow
-            {
-                DataContext = new MainViewModel()
-            };
-
-            storageProvider = desktop.MainWindow.StorageProvider;
+            desktop.MainWindow!.DataContext = ServicesLocator.Get<MainViewModel>();
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
         {
-            singleViewPlatform.MainView = new MainView
-            {
-                DataContext = new MainViewModel()
-            };
-            storageProvider = TopLevel.GetTopLevel(singleViewPlatform.MainView)!.StorageProvider;
+            singleViewPlatform.MainView!.DataContext = ServicesLocator.Get<MainViewModel>();
         }
 
         base.OnFrameworkInitializationCompleted();
-
+    }
+    private void RegisterAppServices()
+    {
         ServicesLocator.RegisterServices(collection =>
         {
-            if(storageProvider != null)
-                collection.AddSingleton<IDialogService>(new DialogService(storageProvider));
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                desktop.MainWindow = new MainWindow();
+                collection.AddSingleton(desktop.MainWindow.StorageProvider);
+                
+            }
+            else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
+            {
+                singleViewPlatform.MainView = new MainView();                
+                collection.AddSingleton(TopLevel.GetTopLevel(singleViewPlatform.MainView)!.StorageProvider);
+            }
+            collection.AddSingleton<IDialogService, DialogService>();
+            collection.AddTransient<MainViewModel>();
         });
     }
 }

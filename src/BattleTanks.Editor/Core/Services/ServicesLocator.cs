@@ -7,25 +7,26 @@ namespace BattleTanks.Editor.Core.Services
 {
     public static class ServicesLocator
     {
-        private static IServiceProvider? provider;
+#pragma warning disable CS8618
+        private static IServiceProvider provider;
+#pragma warning restore CS8618
         private static readonly ServiceCollection services = new ();
         public static void RegisterServices(Action<IServiceCollection> act)
         {
             act(services);
-            provider = services.BuildServiceProvider();
+            provider = services.BuildServiceProvider(new ServiceProviderOptions()
+            {
+                ValidateOnBuild = true
+            });
         }
 
-        public static T? Get<T>()
+        public static T Get<T>()
         {
-            if(provider == null)
-                throw new NullReferenceException();
-            return provider.GetService<T>();
+            return provider.GetService<T>() ?? throw new ArgumentOutOfRangeException();
         }
 
-        public static IEnumerable<T?> GetAll<T>()
+        public static IEnumerable<T> GetAll<T>()
         {
-            if(provider == null)
-                throw new NullReferenceException();
             return provider.GetServices<T>();
         }
     }
