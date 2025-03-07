@@ -21,6 +21,17 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Command="{Binding Open}" Header="File" />
         </Menu>
+        <DataGrid ItemsSource="{Binding TankItemsSource}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Название" />
+                <DataGridTextColumn Binding="{Binding Type}" Header="Тип" />
+                <DataGridTextColumn Binding="{Binding Nation}" Header="Нация" />
+                <DataGridTextColumn Binding="{Binding Attack}" Header="Атака" />
+                <DataGridTextColumn Binding="{Binding Defence}" Header="Защита" />
+                <DataGridTextColumn Binding="{Binding Cost}" Header="Цена" />
+                <DataGridTextColumn Binding="{Binding Resource}" Header="Ресурсы" />
+            </DataGrid.Columns>
+        </DataGrid>
         <Grid />
     </DockPanel>
 </UserControl>

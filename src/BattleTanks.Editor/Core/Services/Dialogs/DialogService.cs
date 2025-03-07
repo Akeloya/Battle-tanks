@@ -1,5 +1,10 @@
-﻿using Avalonia.Platform.Storage;
+﻿using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 
+using BattleTanks.Editor.ViewModels.Dialogs;
+using BattleTanks.Editor.Views.Dialogs;
+
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -39,7 +44,7 @@ namespace BattleTanks.Editor.Core.Services.Dialogs
             });
         }
 
-        public Task OpenFilePickerAsync(bool allowMultiple, 
+        public Task<IReadOnlyList<IStorageFile>> OpenFilePickerAsync(bool allowMultiple, 
             string? title, string? suggestedFileName, IStorageFolder? suggestedLocation,
             IReadOnlyList<FilePickerFileType>? fileTypeChoices)
         {
@@ -51,6 +56,24 @@ namespace BattleTanks.Editor.Core.Services.Dialogs
                 SuggestedStartLocation = suggestedLocation,
                 FileTypeFilter = fileTypeChoices
             });
+        }
+
+        public Task ShowErrorAsync(Exception ex)
+        {
+            var dialogWindow = new DialogWindow()
+            {
+                DataContext = new ErrorViewModel
+                {
+                    Exception = ex
+                }
+            };
+            dialogWindow.Show();
+            return Task.CompletedTask;
+        }
+
+        public Task ShowErrorAsync(string message)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -38,6 +38,11 @@ public partial class App : Application
     {
         ServicesLocator.RegisterServices(collection =>
         {
+            if (Design.IsDesignMode)
+            {
+                collection.AddSingleton(new MainWindow().StorageProvider);
+            }
+
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 desktop.MainWindow = new MainWindow();

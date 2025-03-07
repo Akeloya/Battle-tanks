@@ -9,6 +9,7 @@ namespace BattleTanks.Core.Store
         public required string Nation { get; set; }
         public int Attack { get; set; }
         public int Defence { get; set; }
+        public int Cost { get; set; }
         public short Resource { get; set; }
         public required string ResourceNation { get; set; }
         public string[]? Abilities { get; set; }
