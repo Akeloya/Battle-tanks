@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Avalonia.Controls;
+
+using Microsoft.Extensions.DependencyInjection;
 
 using System;
 using System.Collections.Generic;
@@ -19,7 +21,7 @@ namespace BattleTanks.Editor.Core.Services
                 ValidateOnBuild = true
             });
         }
-
+        public static IServiceProvider Provider => provider;
         public static T Get<T>()
         {
             return provider.GetService<T>() ?? throw new ArgumentOutOfRangeException();
@@ -28,6 +30,11 @@ namespace BattleTanks.Editor.Core.Services
         public static IEnumerable<T> GetAll<T>()
         {
             return provider.GetServices<T>();
+        }
+
+        internal static Control? Get<T>(Type type)
+        {
+            return provider.GetService(type) as Control;
         }
     }
 }

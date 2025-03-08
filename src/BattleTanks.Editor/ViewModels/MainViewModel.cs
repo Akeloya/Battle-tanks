@@ -51,4 +51,9 @@ public class MainViewModel : ViewModelBase
             await DialogService.ShowErrorAsync(ex);
         }
     }
+
+    public async Task ShowTestError()
+    {
+        await DialogService.ShowErrorAsync("test");
+    }
 }

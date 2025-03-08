@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Platform.Storage;
 
+using BattleTanks.Editor.Core.Services.Windows;
 using BattleTanks.Editor.ViewModels.Dialogs;
 using BattleTanks.Editor.Views.Dialogs;
 
@@ -13,9 +14,11 @@ namespace BattleTanks.Editor.Core.Services.Dialogs
     public class DialogService : IDialogService
     {
         private readonly IStorageProvider _storageProvider;
-        public DialogService(IStorageProvider storageProvider)
+        private readonly WindowManager _windowManager;
+        public DialogService(IStorageProvider storageProvider, WindowManager windowManager)
         {
             _storageProvider = storageProvider;
+            _windowManager = windowManager;
         }
         public Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(bool allowMultiple, 
             string? title, string? suggestedFileName, IStorageFolder? suggestedLocation)
@@ -58,22 +61,27 @@ namespace BattleTanks.Editor.Core.Services.Dialogs
             });
         }
 
-        public Task ShowErrorAsync(Exception ex)
+        public async Task ShowErrorAsync(Exception ex)
         {
-            var dialogWindow = new DialogWindow()
+            var dialogWindow = _windowManager.Create();
+            dialogWindow.DataContext = new ErrorViewModel
             {
-                DataContext = new ErrorViewModel
-                {
-                    Exception = ex
-                }
+                Exception = ex
             };
-            dialogWindow.Show();
-            return Task.CompletedTask;
+            await dialogWindow.ShowDialog(_windowManager.Current);
         }
 
-        public Task ShowErrorAsync(string message)
+        public async Task ShowErrorAsync(string message)
         {
-            throw new NotImplementedException();
+            var dialogWindow = _windowManager.Create();
+            var vm = new ErrorViewModel
+            {
+                ErrorMessage = message
+            };
+            vm.OnClose += (_,_)=> dialogWindow.Close();
+            dialogWindow.DataContext = vm;
+            dialogWindow.SizeToContent = SizeToContent.WidthAndHeight;
+            await dialogWindow.ShowDialog(_windowManager.Current);
         }
     }
 }

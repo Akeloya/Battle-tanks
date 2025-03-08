@@ -20,6 +20,7 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Command="{Binding Open}" Header="File" />
+            <MenuItem Command="{Binding ShowTestError}" Header="Show test error" />
         </Menu>
         <DataGrid ItemsSource="{Binding TankItemsSource}">
             <DataGrid.Columns>

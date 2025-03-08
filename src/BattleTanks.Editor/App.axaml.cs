@@ -5,10 +5,13 @@ using Avalonia.Markup.Xaml;
 
 using BattleTanks.Editor.Core.Services;
 using BattleTanks.Editor.Core.Services.Dialogs;
+using BattleTanks.Editor.Core.Services.Windows;
 using BattleTanks.Editor.ViewModels;
 using BattleTanks.Editor.Views;
 
 using Microsoft.Extensions.DependencyInjection;
+
+using ReactiveUI;
 
 namespace BattleTanks.Editor;
 
@@ -38,20 +41,23 @@ public partial class App : Application
     {
         ServicesLocator.RegisterServices(collection =>
         {
+            var wndSrv = new WindowManager();
+            collection.AddSingleton(wndSrv);
+
             if (Design.IsDesignMode)
             {
-                collection.AddSingleton(new MainWindow().StorageProvider);
+                collection.AddSingleton(wndSrv.Create().StorageProvider);
             }
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow();
+                desktop.MainWindow = wndSrv.Create();
                 collection.AddSingleton(desktop.MainWindow.StorageProvider);
                 
             }
             else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
             {
-                singleViewPlatform.MainView = new MainView();                
+                singleViewPlatform.MainView = new MainView();
                 collection.AddSingleton(TopLevel.GetTopLevel(singleViewPlatform.MainView)!.StorageProvider);
             }
             collection.AddSingleton<IDialogService, DialogService>();
