@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:BattleTanks.Editor.ViewModels"
     d:DesignHeight="450"
@@ -16,23 +17,30 @@
         -->
         <vm:MainViewModel />
     </Design.DataContext>
-
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Command="{Binding Open}" Header="File" />
-            <MenuItem Command="{Binding ShowTestError}" Header="Show test error" />
-        </Menu>
-        <DataGrid ItemsSource="{Binding TankItemsSource}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Name}" Header="Название" />
-                <DataGridTextColumn Binding="{Binding Type}" Header="Тип" />
-                <DataGridTextColumn Binding="{Binding Nation}" Header="Нация" />
-                <DataGridTextColumn Binding="{Binding Attack}" Header="Атака" />
-                <DataGridTextColumn Binding="{Binding Defence}" Header="Защита" />
-                <DataGridTextColumn Binding="{Binding Cost}" Header="Цена" />
-                <DataGridTextColumn Binding="{Binding Resource}" Header="Ресурсы" />
-            </DataGrid.Columns>
-        </DataGrid>
-        <Grid />
-    </DockPanel>
+    <dialogHost:DialogHost Name="DialogHost" CloseOnClickAway="True">
+        <dialogHost:DialogHost.DialogContent>
+            <!--  put your dialog content here  -->
+            <Border Background="Yellow">
+                <TextBlock Text="Hello from dialog host!" />
+            </Border>
+        </dialogHost:DialogHost.DialogContent>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Command="{Binding Open}" Header="File" />
+                <MenuItem Command="{Binding ShowTestError}" Header="Show test error" />
+            </Menu>
+            <DataGrid ItemsSource="{Binding TankItemsSource}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding Name}" Header="Название" />
+                    <DataGridTextColumn Binding="{Binding Type}" Header="Тип" />
+                    <DataGridTextColumn Binding="{Binding Nation}" Header="Нация" />
+                    <DataGridTextColumn Binding="{Binding Attack}" Header="Атака" />
+                    <DataGridTextColumn Binding="{Binding Defence}" Header="Защита" />
+                    <DataGridTextColumn Binding="{Binding Cost}" Header="Цена" />
+                    <DataGridTextColumn Binding="{Binding Resource}" Header="Ресурсы" />
+                </DataGrid.Columns>
+            </DataGrid>
+            <Grid />
+        </DockPanel>
+    </dialogHost:DialogHost>
 </UserControl>

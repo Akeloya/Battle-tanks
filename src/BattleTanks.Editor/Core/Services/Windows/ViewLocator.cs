@@ -19,7 +19,10 @@ namespace BattleTanks.Editor.Core.Services.Windows
             if (type != null)
             {
                 if (Activator.CreateInstance(type) is Control inst)
+                {
+                    inst.DataContext = data;
                     return inst;
+                }
             }
             return new TextBlock { Text = "Not Found: " + name };
         }

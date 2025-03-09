@@ -3,10 +3,14 @@ using Avalonia.Platform.Storage;
 
 using BattleTanks.Editor.Core.Services.Windows;
 using BattleTanks.Editor.ViewModels.Dialogs;
+using BattleTanks.Editor.Views;
 using BattleTanks.Editor.Views.Dialogs;
+
+using DialogHostAvalonia;
 
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace BattleTanks.Editor.Core.Services.Dialogs
@@ -14,11 +18,11 @@ namespace BattleTanks.Editor.Core.Services.Dialogs
     public class DialogService : IDialogService
     {
         private readonly IStorageProvider _storageProvider;
-        private readonly WindowManager _windowManager;
-        public DialogService(IStorageProvider storageProvider, WindowManager windowManager)
+        private readonly DialogHost _dialogHost;
+        public DialogService(IStorageProvider storageProvider, DialogHost dialogHost)
         {
             _storageProvider = storageProvider;
-            _windowManager = windowManager;
+            _dialogHost = dialogHost;
         }
         public Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(bool allowMultiple, 
             string? title, string? suggestedFileName, IStorageFolder? suggestedLocation)
@@ -63,25 +67,32 @@ namespace BattleTanks.Editor.Core.Services.Dialogs
 
         public async Task ShowErrorAsync(Exception ex)
         {
-            var dialogWindow = _windowManager.Create();
-            dialogWindow.DataContext = new ErrorViewModel
+            var vm = new ErrorViewModel(){Exception = ex};
+            using var semaphoreSlim = new SemaphoreSlim(0);
+            vm.OnClose +=(_,_) => 
             {
-                Exception = ex
+                _dialogHost.IsOpen = false;
+                _dialogHost.DialogContent = null;
+                semaphoreSlim.Release();
             };
-            await dialogWindow.ShowDialog(_windowManager.Current);
+            _dialogHost.DialogContent = new ViewLocator().Build(vm);
+            _dialogHost.IsOpen = true;
+            await semaphoreSlim.WaitAsync();
         }
 
         public async Task ShowErrorAsync(string message)
         {
-            var dialogWindow = _windowManager.Create();
-            var vm = new ErrorViewModel
+            var vm = new ErrorViewModel(){ErrorMessage = message};
+            using var semaphoreSlim = new SemaphoreSlim(0);
+            vm.OnClose +=(_,_) => 
             {
-                ErrorMessage = message
+                _dialogHost.IsOpen = false;
+                _dialogHost.DialogContent = null;
+                semaphoreSlim.Release();
             };
-            vm.OnClose += (_,_)=> dialogWindow.Close();
-            dialogWindow.DataContext = vm;
-            dialogWindow.SizeToContent = SizeToContent.WidthAndHeight;
-            await dialogWindow.ShowDialog(_windowManager.Current);
+            _dialogHost.DialogContent = new ViewLocator().Build(vm);
+            _dialogHost.IsOpen = true;
+            await semaphoreSlim.WaitAsync();
         }
     }
 }

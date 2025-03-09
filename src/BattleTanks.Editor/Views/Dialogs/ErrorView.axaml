@@ -21,6 +21,7 @@
         </DockPanel>
         <Grid DockPanel.Dock="Top">
             <TextBlock Text="{Binding ErrorMessage, Mode=OneWay}" />
+            <TextBlock Text="{Binding Exception, Mode=OneWay}" />
         </Grid>
     </DockPanel>
 </UserControl>

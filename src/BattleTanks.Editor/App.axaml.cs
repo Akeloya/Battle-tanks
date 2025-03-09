@@ -41,26 +41,27 @@ public partial class App : Application
     {
         ServicesLocator.RegisterServices(collection =>
         {
-            var wndSrv = new WindowManager();
-            collection.AddSingleton(wndSrv);
 
             if (Design.IsDesignMode)
             {
-                collection.AddSingleton(wndSrv.Create().StorageProvider);
+                var wnd = new MainWindow();
+                collection.AddSingleton<IDialogService>(new DialogService(wnd.StorageProvider, wnd.MainView.DialogHost));
             }
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = wndSrv.Create();
-                collection.AddSingleton(desktop.MainWindow.StorageProvider);
+                var wnd = new MainWindow();
+                desktop.MainWindow = wnd;
+                collection.AddSingleton<IDialogService>(new DialogService(wnd.StorageProvider, wnd.MainView.DialogHost));
                 
             }
             else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
             {
-                singleViewPlatform.MainView = new MainView();
-                collection.AddSingleton(TopLevel.GetTopLevel(singleViewPlatform.MainView)!.StorageProvider);
+                var mv = new MainView();
+                singleViewPlatform.MainView = mv;
+                collection.AddSingleton<IDialogService>(new DialogService(TopLevel.GetTopLevel(mv)!.StorageProvider, mv.DialogHost));
             }
-            collection.AddSingleton<IDialogService, DialogService>();
+            
             collection.AddTransient<MainViewModel>();
         });
     }
