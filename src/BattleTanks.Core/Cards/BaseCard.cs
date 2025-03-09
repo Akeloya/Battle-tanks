@@ -4,7 +4,7 @@ namespace BattleTanks.Core.Cards
 {
     internal class BaseCard : IBase
     {
-        public IDefenceCard Defence { get; set; }
+        public IDefenceCard? Defence { get; set; }
         public bool Attacked { get; }
         public short Value { get; init;}
         public required string Name { get; init; }

@@ -5,9 +5,9 @@ namespace BattleTanks.Core.Cards
 {
     public abstract class AAchievementCard : IAchievementCard
     {
-        public string Name { get; init;}
+        public required string Name { get; init;}
 
-        public string Description { get; init;}
+        public required string Description { get; init;}
 
         public short Value { get; init;}
 

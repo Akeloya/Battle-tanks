@@ -2,7 +2,7 @@
 {
     public interface IBase : IResource, IGameCard
     {
-        public IDefenceCard Defence { get; set; }
+        public IDefenceCard? Defence { get; set; }
 
         bool Attacked { get; }
 

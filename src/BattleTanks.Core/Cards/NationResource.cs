@@ -6,6 +6,6 @@ namespace BattleTanks.Core.Cards
     {
         public short Value {get; init;}
 
-        public Nation Nation {get; init;}
+        public required Nation Nation {get; init;}
     }
 }

@@ -1,27 +1,27 @@
 ﻿using System;
 using Avalonia.Platform.Storage;
-
+using System.Collections.Generic;
 using BattleTanks.Core.Store;
 
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Linq;
 using System.IO;
 using BattleTanks.Core.Interfaces;
+using System.Linq;
 
 namespace BattleTanks.Editor.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
-    public string Greeting => "Welcome to Avalonia!";
-
-    public ObservableCollection<CardDefinitinon> TankItemsSource { get; } = new();
+    public ObservableCollection<CardDefinitinon> TankItemsSource { get; } = [];
     public async Task Open()
     {
         try
         {
             var files = await DialogService.OpenFilePickerAsync(fileTypeChoices: [FilePickerFileTypes.TextPlain, FilePickerFileTypes.All]);
-            var file = files.First();
+            if(!files.Any())
+                return;
+            var file = files[0];
             using var fs = await file.OpenReadAsync();
             using var streamReader = new StreamReader(fs);
             string? line;
@@ -30,6 +30,24 @@ public class MainViewModel : ViewModelBase
             while(!string.IsNullOrWhiteSpace(line))
             {
                 var values = line.Split(';');
+                var abilities = new List<Ability>();
+                for(var i = 0; i <= 2; i+=2)
+                { 
+                    var index = 8 + i;
+                    if(!string.IsNullOrEmpty(values[index]))
+                    {
+                        var ab = new Ability()
+                        {
+                            Name = values[index],
+                        };
+                        if(int.TryParse(values[index + 1], out var val))
+                            ab.Value = val;
+
+                        abilities.Add(ab);
+                    }
+                    else
+                        break;
+                }
 
                 TankItemsSource.Add(new CardDefinitinon
                 {
@@ -41,7 +59,7 @@ public class MainViewModel : ViewModelBase
                     Cost = int.Parse(values[5]),
                     Resource = short.Parse(values[6]),
                     ResourceNation = values[7],
-                    AbilitesValues = new System.Collections.Generic.List<CardDefinitinon.Ability>()
+                    AbilitesValues = abilities
                 });
                 line = await streamReader.ReadLineAsync();
             }

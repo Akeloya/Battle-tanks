@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="clr-namespace:BattleTanks.Core.Store;assembly=BattleTanks.Core"
     xmlns:vm="clr-namespace:BattleTanks.Editor.ViewModels"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -38,6 +39,22 @@
                     <DataGridTextColumn Binding="{Binding Defence}" Header="Защита" />
                     <DataGridTextColumn Binding="{Binding Cost}" Header="Цена" />
                     <DataGridTextColumn Binding="{Binding Resource}" Header="Ресурсы" />
+                    <DataGridTemplateColumn Header="Способности">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ItemsControl ItemsSource="{Binding AbilitesValues}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate DataType="model:Ability">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock Text="{Binding Name}" />
+                                                <TextBlock Margin="5,0" Text="{Binding Value}" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
             <Grid />
