@@ -4,7 +4,7 @@ namespace BattleTanks.Core.Store
 {
     public class Ability
     {
-        public string? Name { get; set; }
+        public required string Name { get; set; }
         public int? Value { get; set; }
     }
     public class CardDefinitinon
@@ -17,7 +17,6 @@ namespace BattleTanks.Core.Store
         public int Cost { get; set; }
         public short Resource { get; set; }
         public required string ResourceNation { get; set; }
-        public string[]? Abilities { get; set; }
         public required List<Ability> AbilitesValues { get; set; }
         public string? Image { get; set; }
     }
