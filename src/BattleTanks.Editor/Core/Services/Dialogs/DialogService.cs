@@ -1,10 +1,7 @@
-﻿using Avalonia.Controls;
-using Avalonia.Platform.Storage;
+﻿using Avalonia.Platform.Storage;
 
 using BattleTanks.Editor.Core.Services.Windows;
 using BattleTanks.Editor.ViewModels.Dialogs;
-using BattleTanks.Editor.Views;
-using BattleTanks.Editor.Views.Dialogs;
 
 using DialogHostAvalonia;
 
@@ -24,52 +21,53 @@ namespace BattleTanks.Editor.Core.Services.Dialogs
             _storageProvider = storageProvider;
             _dialogHost = dialogHost;
         }
-        public Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(bool allowMultiple, 
-            string? title, string? suggestedFileName, IStorageFolder? suggestedLocation)
+        public Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(DialogFolderProperties? dialogFolderProperties = null)
         {
-           return _storageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
+            dialogFolderProperties ??= DialogFolderProperties.Default;
+            return _storageProvider.OpenFolderPickerAsync(new FolderPickerOpenOptions()
             {
-                AllowMultiple = allowMultiple,
-                Title = title,
-                SuggestedFileName = suggestedFileName,
-                SuggestedStartLocation = suggestedLocation
+                AllowMultiple = dialogFolderProperties.AllowMultiple,
+                Title = dialogFolderProperties.Title,
+                SuggestedFileName = dialogFolderProperties.SuggestedFileName,
+                SuggestedStartLocation = dialogFolderProperties.SuggestedLocation
             });
         }
 
-        public Task<IStorageFile?> SaveFilePickerAsync(string? defaultExtension, bool? showOverwritePrompt,
-            string? title, string? suggestedFileName, IReadOnlyList<FilePickerFileType>? fileTypeChoices,
-            IStorageFolder? suggestedLocation)
+        public Task<IStorageFile?> SaveFilePickerAsync(SaveFileProperties? saveFileProperties = null)
         {
-           return _storageProvider.SaveFilePickerAsync(new FilePickerSaveOptions()
+            saveFileProperties ??= SaveFileProperties.Default;
+            return _storageProvider.SaveFilePickerAsync(new FilePickerSaveOptions()
             {
-               Title = title,
-               DefaultExtension = defaultExtension,
-               FileTypeChoices = fileTypeChoices,
-               ShowOverwritePrompt = showOverwritePrompt,
-               SuggestedFileName = suggestedFileName,
-               SuggestedStartLocation = suggestedLocation
+                Title = saveFileProperties.Title,
+                DefaultExtension = saveFileProperties.DefaultExtension,
+                FileTypeChoices = saveFileProperties.FileTypeChoices,
+                ShowOverwritePrompt = saveFileProperties.ShowOverwritePrompt,
+                SuggestedFileName = saveFileProperties.SuggestedFileName,
+                SuggestedStartLocation = saveFileProperties.SuggestedLocation
             });
         }
 
-        public Task<IReadOnlyList<IStorageFile>> OpenFilePickerAsync(bool allowMultiple, 
-            string? title, string? suggestedFileName, IStorageFolder? suggestedLocation,
-            IReadOnlyList<FilePickerFileType>? fileTypeChoices)
+        public Task<IReadOnlyList<IStorageFile>> OpenFilePickerAsync(DialogFileProperties? fileProperties = null)
         {
+            fileProperties ??= DialogFileProperties.Default;
             return _storageProvider.OpenFilePickerAsync(new FilePickerOpenOptions()
             {
-                AllowMultiple = allowMultiple,
-                Title = title,
-                SuggestedFileName = suggestedFileName,
-                SuggestedStartLocation = suggestedLocation,
-                FileTypeFilter = fileTypeChoices
+                AllowMultiple = fileProperties.AllowMultiple,
+                Title = fileProperties.Title,
+                SuggestedFileName = fileProperties.SuggestedFileName,
+                SuggestedStartLocation = fileProperties.SuggestedLocation,
+                FileTypeFilter = fileProperties.FileTypeChoices
             });
         }
 
-        public async Task ShowErrorAsync(Exception ex)
+        public async Task ShowErrorAsync(string message)
         {
-            var vm = new ErrorViewModel(){Exception = ex};
+            var vm = new ErrorViewModel
+            {
+                ErrorMessage = message
+            };
             using var semaphoreSlim = new SemaphoreSlim(0);
-            vm.OnClose +=(_,_) => 
+            vm.OnClose += (_, _) =>
             {
                 _dialogHost.IsOpen = false;
                 _dialogHost.DialogContent = null;
@@ -80,11 +78,33 @@ namespace BattleTanks.Editor.Core.Services.Dialogs
             await semaphoreSlim.WaitAsync();
         }
 
-        public async Task ShowErrorAsync(string message)
+        public Task ShowErrorAsync(Exception ex)
         {
-            var vm = new ErrorViewModel(){ErrorMessage = message};
+            return ShowDialogAsync(new ErrorViewModel { Exception = ex });
+        }
+
+        public Task ShowInfoAsync(string data)
+        {
+            return ShowDialogAsync(new DialogViewModel { Content = data });
+        }
+
+        public async Task ShowWarningAsync(string data)
+        {
+            await ShowDialogAsync(new DialogViewModel { Content = data });
+        }
+
+        public async Task ShowDialogAsync(object data)
+        {
+            if (data is not DialogViewModel vm)
+            {
+                vm = new DialogViewModel
+                {
+                    Content = data
+                };
+            }
+
             using var semaphoreSlim = new SemaphoreSlim(0);
-            vm.OnClose +=(_,_) => 
+            vm.OnClose += (_, _) =>
             {
                 _dialogHost.IsOpen = false;
                 _dialogHost.DialogContent = null;

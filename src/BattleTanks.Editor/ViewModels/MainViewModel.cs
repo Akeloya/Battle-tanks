@@ -3,6 +3,7 @@
 using BattleTanks.Core.Interfaces;
 using BattleTanks.Core.Storage;
 using BattleTanks.Core.Store;
+using BattleTanks.Editor.Core.Services.Dialogs;
 
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ public class MainViewModel : ViewModelBase
     {
         try
         {
-            var files = await DialogService.OpenFilePickerAsync(fileTypeChoices: [FilePickerFileTypes.All]);
+            var files = await DialogService.OpenFilePickerAsync(DialogFileProperties.Default.RegisterType("Открыть файл", ["*.*"]));
             if (!files.Any())
                 return;
             var file = files[0];

@@ -7,10 +7,10 @@ namespace BattleTanks.Editor.ViewModels.Dialogs
     public class DialogViewModel : ViewModelBase, IDialogWindow
     {
         public event EventHandler? OnClose;
-
+        public object? Content { get; set; }
         public void Close()
         {
-           OnClose?.Invoke(this, EventArgs.Empty);
+            OnClose?.Invoke(this, EventArgs.Empty);
         }
     }
 }
