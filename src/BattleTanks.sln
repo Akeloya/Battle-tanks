@@ -14,11 +14,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project files", "Project fi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleTanks.Tests", "BattleTanks.Tests\BattleTanks.Tests.csproj", "{7CA45C05-1DDA-45C4-B5C6-36C0DA5EE7CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleTanks.Editor", "BattleTanks.Editor\BattleTanks.Editor.csproj", "{EFD88A03-72CE-93DD-0D34-D9DAA8F5F518}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleTanks.Game", "BattleTanks.Game\BattleTanks.Game.csproj", "{EFD88A03-72CE-93DD-0D34-D9DAA8F5F518}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleTanks.Editor.Android", "BattleTanks.Editor.Android\BattleTanks.Editor.Android.csproj", "{764D146C-A5E8-8E12-D8D2-BC97EC374BF2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleTanks.Game.Android", "BattleTanks.Game.Android\BattleTanks.Game.Android.csproj", "{764D146C-A5E8-8E12-D8D2-BC97EC374BF2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleTanks.Editor.Desktop", "BattleTanks.Editor.Desktop\BattleTanks.Editor.Desktop.csproj", "{33D73802-22D1-439A-6F64-4B9366AE3A47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleTanks.Game.Desktop", "BattleTanks.Game.Desktop\BattleTanks.Game.Desktop.csproj", "{33D73802-22D1-439A-6F64-4B9366AE3A47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
