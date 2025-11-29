@@ -4,6 +4,9 @@ using BattleTanks.Core.Interfaces;
 using BattleTanks.Core.Storage;
 using BattleTanks.Core.Store;
 using BattleTanks.Game.Core.Services.Dialogs;
+using BattleTanks.Game.ViewModels.Menu;
+
+using ReactiveUI;
 
 using System;
 using System.Collections.Generic;
@@ -16,6 +19,9 @@ namespace BattleTanks.Game.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
+    public int Rows { get; private set; } = 3;
+    public int Columns { get; private set; } = 2;
+    public ObservableCollection<MenuViewModel> MenuItems { get; } = [new MenuViewModel("Game", "", ReactiveCommand.Create(() =>{}))];
     public ObservableCollection<CardDefinitinon> TankItemsSource { get; } = [];
     public async Task Open()
     {

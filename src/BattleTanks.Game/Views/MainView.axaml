@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dialogHost="clr-namespace:DialogHostAvalonia;assembly=DialogHost.Avalonia"
+    xmlns:game="using:BattleTanks.Game"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:model="clr-namespace:BattleTanks.Core.Store;assembly=BattleTanks.Core"
     xmlns:vm="clr-namespace:BattleTanks.Game.ViewModels"
@@ -26,11 +27,39 @@
             </Border>
         </dialogHost:DialogHost.DialogContent>
         <DockPanel>
-            <Menu DockPanel.Dock="Top">
+            <Grid RowDefinitions="Auto,*" Margin="10">
+        
+            <!-- Заголовок -->
+            <TextBlock Grid.Row="0" 
+                       Text="Главное меню" 
+                       FontSize="20" 
+                       FontWeight="Bold" 
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,20"/>
+        
+            <!-- Адаптивная сетка кнопок -->
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding MenuItems}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Rows="{Binding Rows}" 
+                                    Columns="{Binding Columns}"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <game:MenuView DataContext="{Binding }" Background="Yellow"></game:MenuView>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+            <!--<Menu DockPanel.Dock="Top">
                 <MenuItem Command="{Binding Open}" Header="File" />
                 <MenuItem Command="{Binding Upload}" Header="Upload" />
                 <MenuItem Command="{Binding ShowTestError}" Header="Show test error" />
-            </Menu>
+            </Menu>-->
             <DataGrid ItemsSource="{Binding TankItemsSource}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Binding="{Binding Name}" Header="Название" />

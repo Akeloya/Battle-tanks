@@ -1,0 +1,57 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:menu="using:BattleTanks.Game.ViewModels.Menu"
+             xmlns:metadata="using:System.Reflection.Metadata"
+             xmlns:windows="using:BattleTanks.Game.Core.Services.Windows"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"          
+             x:Class="BattleTanks.Game.MenuView" x:DataType="menu:MenuViewModel">
+    <Design.DataContext>
+        <menu:MenuViewModel></menu:MenuViewModel>
+    </Design.DataContext>
+    <UserControl.DataTemplates>
+        <windows:ViewLocator />
+    </UserControl.DataTemplates>
+      <Button Command="{Binding MenuItemCommand}"
+            Width="{Binding ButtonSize}"
+            Height="{Binding ButtonSize}"
+            Margin="5"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center">                        
+        <Button.Styles>
+            <Style Selector="Button">
+                <Setter Property="Background" Value="#1976D2"/>
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="CornerRadius" Value="10"/>
+            </Style>
+            <Style Selector="Button:pointerover">
+                <Setter Property="Background" Value="#1565C0"/>
+                <Setter Property="Cursor" Value="Hand"/>
+            </Style>
+            <Style Selector="Button:pressed">
+                <Setter Property="Background" Value="#0D47A1"/>
+                <Setter Property="RenderTransform">
+                    <Setter.Value>
+                        <ScaleTransform ScaleX="0.95" ScaleY="0.95"/>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Button.Styles>
+                        
+        <StackPanel Orientation="Vertical" 
+                    Spacing="8"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <Image Source="{Binding Icon}" HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding Header}" 
+                        FontSize="14"
+                        TextWrapping="Wrap"
+                        TextAlignment="Center"
+                        HorizontalAlignment="Center"/>                            
+        </StackPanel>
+    </Button>
+</UserControl>
